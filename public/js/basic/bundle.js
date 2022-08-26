@@ -5081,8 +5081,8 @@ var replyNego = /*#__PURE__*/function () {
           case 3:
             res = _context9.sent;
 
-            if (res.data.status === "success") {// location.reload();
-              // const nego = document.querySelector(".negoRow");
+            if (res.data.status === "success") {
+              location.reload(); // const nego = document.querySelector(".negoRow");
               // console.log(nego);
               // if (nego) location.reload();
               // else window.location.href = "/";
@@ -7150,7 +7150,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49935" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63986" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

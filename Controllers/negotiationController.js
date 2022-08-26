@@ -67,12 +67,12 @@ exports.placeBid = catchAsync(async (req, res, next) => {
       });
 
       // console.log(req.body.buyer);
-      res.status(201).json({
-        status: "success",
-        data: {
-          data: bid,
-        },
-      });
+      // res.status(201).json({
+      //   status: "success",
+      //   data: {
+      //     data: bid,
+      //   },
+      // });
     }
   } catch (e) {
     console.log(e);
