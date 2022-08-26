@@ -135,6 +135,17 @@ app.use("/api/v1/product", productRouter);
 app.use("/api/v1/farmProduct", farmProductRouter);
 app.use("/api/v1/negotiation", negotiationRouter);
 
+const ondc = require("ondc-node");
+const handlers = require("./handlers");
+app.use(express.json());
+// ONDC Middleware
+app.use(
+  "/ondc",
+  ondc.Middleware({
+    on_search: handlers["onSearch"],
+    on_init: handlers["onInit"],
+  })
+);
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

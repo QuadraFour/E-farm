@@ -52,6 +52,18 @@ const negoIds = document.querySelectorAll(".negoId");
 const filterBtn = document.querySelector(".filterBtn");
 const distValue = document.querySelector(".distValue");
 const sellProd = document.querySelectorAll(".sellProd");
+const navItem = document.querySelectorAll(".nav-item");
+if (navItem) {
+  navItem.forEach((el) => {
+    el.classList.remove("active");
+    // el.removeClass("active");
+  });
+  if (window.location.href.includes("/overview")) {
+    navItem[2].classList.add("active");
+  } else if (window.location.href.includes("/aboutUs"))
+    navItem[1].classList.add("active");
+  else if (window.location.pathname == "/") navItem[0].classList.add("active");
+}
 if (window.location.href.includes("productsWithin"))
   distValue.value = window.location.href.split(",")[2].split("?")[0];
 addListener();
@@ -80,7 +92,6 @@ if (negoIds) {
     socket.emit("join", { id: el.dataset.id });
   });
   socket.on("wel", (arg) => {
-    console.log(negoIds[0].dataset.user, arg.negoStage);
     if (negoIds[0].dataset.user == "buyer" && arg.negoStage % 2 != 0) {
       if (localStorage.getItem("notify"))
         showNotification(arg.name, arg.bid, arg.negoStage);
@@ -242,7 +253,6 @@ if (negoPgcancel) {
 }
 if (resetPassBtn) {
   resetPassBtn.addEventListener("click", () => {
-    console.log("Click");
     resetPassFn(
       passConfirmReset.dataset.token,
       passwordReset.value,

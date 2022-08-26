@@ -4620,12 +4620,11 @@ var login = /*#__PURE__*/function () {
 
           case 5:
             res = _context.sent;
-            _context.next = 12;
+            _context.next = 11;
             break;
 
           case 8:
-            console.log("/api/v1/".concat(id == 0 ? "farmSeller" : "seller", "/login"));
-            _context.next = 11;
+            _context.next = 10;
             return (0, _axios.default)({
               method: "POST",
               url: "/api/v1/".concat(id == 0 ? "farmSeller" : "seller", "/login"),
@@ -4635,10 +4634,10 @@ var login = /*#__PURE__*/function () {
               }
             });
 
-          case 11:
+          case 10:
             res = _context.sent;
 
-          case 12:
+          case 11:
             if (res.data.status === "success") {
               (0, _alerts.showAlert)("success", "Logged in successfully!");
               window.setTimeout(function () {
@@ -4650,25 +4649,25 @@ var login = /*#__PURE__*/function () {
               }, 200);
             }
 
-            _context.next = 20;
+            _context.next = 19;
             break;
 
-          case 15:
-            _context.prev = 15;
+          case 14:
+            _context.prev = 14;
             _context.t0 = _context["catch"](1);
             showValidate(input[0]);
             input[0].dataset.validate = _context.t0.response.data.message;
             return _context.abrupt("return", false);
 
-          case 20:
+          case 19:
             return _context.abrupt("return", true);
 
-          case 21:
+          case 20:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 15]]);
+    }, _callee, null, [[1, 14]]);
   }));
 
   return function login(_x, _x2, _x3) {
@@ -4679,7 +4678,7 @@ var login = /*#__PURE__*/function () {
 exports.login = login;
 
 var signUp = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, password, passwordConfirm) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, password, passwordConfirm, id) {
     var input, res;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) {
@@ -4736,11 +4735,10 @@ var signUp = /*#__PURE__*/function () {
 
                       case 4:
                         res1 = _context2.sent;
-                        console.log(res1.data.results[0].components.city);
-                        _context2.next = 8;
+                        _context2.next = 7;
                         return (0, _axios.default)({
                           method: "POST",
-                          url: "/api/v1/seller/signup",
+                          url: "/api/v1/".concat(id == 0 ? "farmSeller" : "seller", "/signup"),
                           data: {
                             name: name,
                             email: email,
@@ -4753,17 +4751,19 @@ var signUp = /*#__PURE__*/function () {
                           }
                         });
 
-                      case 8:
+                      case 7:
                         res = _context2.sent;
 
                         if (res.data.status === "success") {
                           (0, _alerts.showAlert)("success", "SignedUp successfully!");
-                          window.setTimeout(function () {
+                          if (id == 0) window.setTimeout(function () {
+                            location.assign("/MyRents");
+                          }, 200);else window.setTimeout(function () {
                             location.assign("/seller_products");
                           }, 200);
                         }
 
-                      case 10:
+                      case 9:
                       case "end":
                         return _context2.stop();
                     }
@@ -4771,7 +4771,7 @@ var signUp = /*#__PURE__*/function () {
                 }, _callee2);
               }));
 
-              return function (_x8) {
+              return function (_x9) {
                 return _ref3.apply(this, arguments);
               };
             }());
@@ -4798,7 +4798,7 @@ var signUp = /*#__PURE__*/function () {
     }, _callee3, null, [[1, 12]]);
   }));
 
-  return function signUp(_x4, _x5, _x6, _x7) {
+  return function signUp(_x4, _x5, _x6, _x7, _x8) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -4853,7 +4853,7 @@ var addToCart = /*#__PURE__*/function () {
     }, _callee4, null, [[2, 9]]);
   }));
 
-  return function addToCart(_x9) {
+  return function addToCart(_x10) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -4901,7 +4901,7 @@ var rmCart = /*#__PURE__*/function () {
     }, _callee5, null, [[0, 7]]);
   }));
 
-  return function rmCart(_x10, _x11) {
+  return function rmCart(_x11, _x12) {
     return _ref5.apply(this, arguments);
   };
 }();
@@ -4910,7 +4910,7 @@ exports.rmCart = rmCart;
 
 var addNego = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, buyer, price, qty) {
-    var res;
+    var res, cart;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -4932,9 +4932,9 @@ var addNego = /*#__PURE__*/function () {
           case 3:
             res = _context6.sent;
 
-            if (res.data.status === "success") {// const cart = document.querySelector(".cartProducts");
-              // if (cart) location.reload();
-              // else window.location.href = "/overview";
+            if (res.data.status === "success") {
+              cart = document.querySelector(".cartProds");
+              if (cart) location.reload();else window.location.href = "/negotiate";
             }
 
             _context6.next = 10;
@@ -4956,7 +4956,7 @@ var addNego = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 7]]);
   }));
 
-  return function addNego(_x12, _x13, _x14, _x15) {
+  return function addNego(_x13, _x14, _x15, _x16) {
     return _ref6.apply(this, arguments);
   };
 }();
@@ -4979,7 +4979,6 @@ var acceptNego = /*#__PURE__*/function () {
 
           case 3:
             res = _context7.sent;
-            console.log(res);
 
             if (res.data.status === "success") {
               // const cart = document.querySelector(".cartProducts");
@@ -4987,26 +4986,26 @@ var acceptNego = /*#__PURE__*/function () {
               window.location.href = "/order_placed/".concat(res.data.data.data._id);
             }
 
-            _context7.next = 11;
+            _context7.next = 10;
             break;
 
-          case 8:
-            _context7.prev = 8;
+          case 7:
+            _context7.prev = 7;
             _context7.t0 = _context7["catch"](0);
             console.log("ERRRRORR", _context7.t0); // showAlert("error", err.response.data.message);
 
-          case 11:
+          case 10:
             return _context7.abrupt("return", true);
 
-          case 12:
+          case 11:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[0, 8]]);
+    }, _callee7, null, [[0, 7]]);
   }));
 
-  return function acceptNego(_x16) {
+  return function acceptNego(_x17) {
     return _ref7.apply(this, arguments);
   };
 }();
@@ -5031,8 +5030,8 @@ var cancelNego = /*#__PURE__*/function () {
             res = _context8.sent;
 
             if (res.data.status === "success") {
-              console.log("REMOVED");
               nego = document.querySelector(".negoRow");
+              console.log(nego);
               if (nego) location.reload();else window.location.href = "/";
             }
 
@@ -5055,7 +5054,7 @@ var cancelNego = /*#__PURE__*/function () {
     }, _callee8, null, [[0, 7]]);
   }));
 
-  return function cancelNego(_x17) {
+  return function cancelNego(_x18) {
     return _ref8.apply(this, arguments);
   };
 }();
@@ -5108,7 +5107,7 @@ var replyNego = /*#__PURE__*/function () {
     }, _callee9, null, [[0, 7]]);
   }));
 
-  return function replyNego(_x18, _x19) {
+  return function replyNego(_x19, _x20) {
     return _ref9.apply(this, arguments);
   };
 }();
@@ -5143,12 +5142,11 @@ var forgPassFn = /*#__PURE__*/function () {
 
           case 7:
             res = _context10.sent;
-            _context10.next = 14;
+            _context10.next = 13;
             break;
 
           case 10:
-            console.log(email);
-            _context10.next = 13;
+            _context10.next = 12;
             return (0, _axios.default)({
               method: "POST",
               url: "api/v1/seller/forgotPassword",
@@ -5157,33 +5155,30 @@ var forgPassFn = /*#__PURE__*/function () {
               }
             });
 
-          case 13:
+          case 12:
             res = _context10.sent;
 
-          case 14:
+          case 13:
             if (res.data.status === "success") {
               location.reload();
             }
 
-            _context10.next = 22;
+            _context10.next = 21;
             break;
 
-          case 17:
-            _context10.prev = 17;
+          case 16:
+            _context10.prev = 16;
             _context10.t0 = _context10["catch"](3);
             showValidate(input[0]);
             input[0].dataset.validate = _context10.t0.response.data.message;
             return _context10.abrupt("return", false);
 
-          case 22:
-            console.log("sendmail");
-
-          case 23:
+          case 21:
           case "end":
             return _context10.stop();
         }
       }
-    }, _callee10, null, [[3, 17]]);
+    }, _callee10, null, [[3, 16]]);
   }));
 
   return function forgPassFn() {
@@ -5258,7 +5253,7 @@ var updateDetails = /*#__PURE__*/function () {
     }, _callee11, null, [[1, 14]]);
   }));
 
-  return function updateDetails(_x20) {
+  return function updateDetails(_x21) {
     return _ref11.apply(this, arguments);
   };
 }();
@@ -5319,18 +5314,17 @@ var updatePassword = /*#__PURE__*/function () {
               }, 300);
             }
 
-            _context12.next = 20;
+            _context12.next = 19;
             break;
 
           case 14:
             _context12.prev = 14;
             _context12.t0 = _context12["catch"](1);
-            console.log(_context12.t0.response.data);
             showValidate(input[1]);
             input[1].dataset.validate = _context12.t0.response.data.message;
             return _context12.abrupt("return", false);
 
-          case 20:
+          case 19:
           case "end":
             return _context12.stop();
         }
@@ -5338,7 +5332,7 @@ var updatePassword = /*#__PURE__*/function () {
     }, _callee12, null, [[1, 14]]);
   }));
 
-  return function updatePassword(_x21, _x22, _x23) {
+  return function updatePassword(_x22, _x23, _x24) {
     return _ref12.apply(this, arguments);
   };
 }();
@@ -5374,12 +5368,11 @@ var resetPassFn = /*#__PURE__*/function () {
 
           case 5:
             res = _context13.sent;
-            _context13.next = 12;
+            _context13.next = 11;
             break;
 
           case 8:
-            console.log(email);
-            _context13.next = 11;
+            _context13.next = 10;
             return (0, _axios.default)({
               method: "PATCH",
               url: "/api/v1/seller/resetPassword/".concat(token),
@@ -5389,38 +5382,34 @@ var resetPassFn = /*#__PURE__*/function () {
               }
             });
 
-          case 11:
+          case 10:
             res = _context13.sent;
 
-          case 12:
+          case 11:
             if (res.data.status === "success") {
-              console.log("SUCCESS");
               if (!window.location.href.includes("seller")) window.location.href = "/login";else window.location.href = "/seller-login";
             }
 
-            _context13.next = 20;
+            _context13.next = 19;
             break;
 
-          case 15:
-            _context13.prev = 15;
+          case 14:
+            _context13.prev = 14;
             _context13.t0 = _context13["catch"](1);
             showValidate(input[0]); // if (err.response.data.message.includes("Cast to string failed"))
 
             input[0].dataset.validate = _context13.t0.response.data.message;
             return _context13.abrupt("return", false);
 
-          case 20:
-            console.log("sendmail");
-
-          case 21:
+          case 19:
           case "end":
             return _context13.stop();
         }
       }
-    }, _callee13, null, [[1, 15]]);
+    }, _callee13, null, [[1, 14]]);
   }));
 
-  return function resetPassFn(_x24, _x25, _x26) {
+  return function resetPassFn(_x25, _x26, _x27) {
     return _ref13.apply(this, arguments);
   };
 }();
@@ -5453,18 +5442,17 @@ var updateCart = /*#__PURE__*/function () {
               // location.reload();
             }
 
-            _context14.next = 10;
+            _context14.next = 9;
             break;
 
           case 7:
             _context14.prev = 7;
             _context14.t0 = _context14["catch"](0);
-            console.log("ERRRRORR", _context14.t0); // showAlert("error", err.response.data.message);
 
-          case 10:
+          case 9:
             return _context14.abrupt("return", true);
 
-          case 11:
+          case 10:
           case "end":
             return _context14.stop();
         }
@@ -5472,7 +5460,7 @@ var updateCart = /*#__PURE__*/function () {
     }, _callee14, null, [[0, 7]]);
   }));
 
-  return function updateCart(_x27, _x28, _x29) {
+  return function updateCart(_x28, _x29, _x30) {
     return _ref14.apply(this, arguments);
   };
 }();
@@ -5504,16 +5492,15 @@ var logout = /*#__PURE__*/function () {
               if (hasUrl.includes(true)) window.location.href = "/";else if (!window.location.href.includes("seller-login")) location.reload();
             }
 
-            _context15.next = 11;
+            _context15.next = 10;
             break;
 
           case 7:
             _context15.prev = 7;
             _context15.t0 = _context15["catch"](0);
-            console.log(_context15.t0.response);
             (0, _alerts.showAlert)("error", "Error logging out! Try again.");
 
-          case 11:
+          case 10:
           case "end":
             return _context15.stop();
         }
@@ -5550,7 +5537,7 @@ var filterPrice = /*#__PURE__*/function () {
     }, _callee16);
   }));
 
-  return function filterPrice(_x30, _x31) {
+  return function filterPrice(_x31, _x32) {
     return _ref16.apply(this, arguments);
   };
 }();
@@ -5575,7 +5562,7 @@ var withinDistance = /*#__PURE__*/function () {
     }, _callee17);
   }));
 
-  return function withinDistance(_x32) {
+  return function withinDistance(_x33) {
     return _ref17.apply(this, arguments);
   };
 }();
@@ -5592,13 +5579,25 @@ exports.signUpForm = exports.forgotPasswordForm = void 0;
 var _ApiCalls = require("./ApiCalls.js");
 
 var loginForm = document.querySelector(".login100-form");
-var input;
-var signUpmarkup = "<span class=\"login100-form-title p-b-53\">Sign Up </span>\n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Name</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"User Name is required\">\n    <input class=\"input100\" type=\"text\" name=\"username\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Email Address</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Email Id is required\">\n    <input class=\"input100\" type=\"text\" name=\"email\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"pass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Confirm Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"ConfirmPass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"container-login100-form-btn m-t-17 signupBtn\">\n    <button type=\"button\" class=\"login100-form-btn signupBtn\" >Sign Up</button>\n  </div>";
+var input, id;
+var signUpmarkup = "\n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Name</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"User Name is required\">\n    <input class=\"input100\" type=\"text\" name=\"username\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Email Address</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Email Id is required\">\n    <input class=\"input100\" type=\"text\" name=\"email\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"pass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Confirm Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"ConfirmPass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"container-login100-form-btn m-t-17 signupBtn\">\n    <button type=\"button\" class=\"login100-form-btn signupBtn\" >Sign Up</button>\n  </div>";
+var signUp1markup = "<div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Name</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"User Name is required\">\n    <input class=\"input100\" type=\"text\" name=\"username\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Email Address</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Email Id is required\"> \n    <input class=\"input100\" type=\"text\" name=\"email\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"pass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"p-t-13 p-b-9\"><span class=\"txt1\">Confirm Password</span>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Password is required\">\n    <input class=\"input100\" type=\"password\" name=\"ConfirmPass\" autocomplete=\"on\"/><span class=\"focus-input100\"></span>\n  </div>\n  <div class=\"container-login100-form-btn m-t-17 signupBtn\">\n    <button type=\"button\" class=\"login100-form-btn signupBtn\" >Sign Up</button>\n  </div>";
 var forgotMarkup = "<span class=\"login100-form-title p-b-53\">Forgot Password </span>\n \n  <div class=\"p-t-31 p-b-9\"><span class=\"txt1\">Email Address</span></div>\n  <div class=\"wrap-input100 validate-input\" data-validate=\"Email Id is required\">\n    <input class=\"input100 emailInpt\" type=\"text\" name=\"email\"/><span class=\"focus-input100\"></span>\n  </div>\n  \n  <div class=\"container-login100-form-btn m-t-17 \">\n    <button type=\"button\" class=\"login100-form-btn forgotPassword\" >Send Mail</button>\n  </div>";
 
 var signUpForm = function signUpForm(e) {
   e.preventDefault();
-  loginForm.innerHTML = signUpmarkup;
+  document.querySelector(".signUpName").innerHTML = "Sign Up";
+  var sellProd = document.querySelectorAll(".sellProd");
+  if (window.location.href.includes("seller")) loginForm.innerHTML = signUp1markup;else loginForm.innerHTML = signUpmarkup;
+
+  if (sellProd) {
+    sellProd.forEach(function (el) {
+      el.addEventListener("click", function () {
+        id = el.dataset.id;
+      });
+    });
+  } else id = 3;
+
   input = document.querySelectorAll(".validate-input .input100");
   document.querySelector(".signupBtn").addEventListener("click", signUpFn);
   input.forEach(function (el) {
@@ -5620,14 +5619,13 @@ var signUpFn = function signUpFn(e) {
       check = false;
     }
   });
-  console.log("SIGNUP");
 
   if (check) {
     var name = input[0].value;
     var email = input[1].value;
     var password = input[2].value;
     var Cpassword = input[3].value;
-    (0, _ApiCalls.signUp)(name, email, password, Cpassword);
+    (0, _ApiCalls.signUp)(name, email, password, Cpassword, id);
   } else {
     return false;
   }
@@ -6098,22 +6096,21 @@ var addProduct = /*#__PURE__*/function () {
             if (prodImages.files[2]) form.append("images", prodImages.files[2]);
             form.append("type", prodType.value);
             form.append("stockLeft", prodStockLeft.value);
-            console.log(form.entries());
-            _context5.next = 13;
+            _context5.next = 12;
             return (0, _axios.default)({
               method: "POST",
               url: "/api/v1/product/addProduct",
               data: form
             });
 
-          case 13:
+          case 12:
             res = _context5.sent;
 
             if (res.data.status === "success") {
               window.location.href = "/seller_products";
             }
 
-          case 15:
+          case 14:
           case "end":
             return _context5.stop();
         }
@@ -6878,6 +6875,18 @@ var negoIds = document.querySelectorAll(".negoId");
 var filterBtn = document.querySelector(".filterBtn");
 var distValue = document.querySelector(".distValue");
 var sellProd = document.querySelectorAll(".sellProd");
+var navItem = document.querySelectorAll(".nav-item");
+
+if (navItem) {
+  navItem.forEach(function (el) {
+    el.classList.remove("active"); // el.removeClass("active");
+  });
+
+  if (window.location.href.includes("/overview")) {
+    navItem[2].classList.add("active");
+  } else if (window.location.href.includes("/aboutUs")) navItem[1].classList.add("active");else if (window.location.pathname == "/") navItem[0].classList.add("active");
+}
+
 if (window.location.href.includes("productsWithin")) distValue.value = window.location.href.split(",")[2].split("?")[0];
 (0, _checkOut.addListener)();
 var distChange = false;
@@ -6909,8 +6918,6 @@ if (negoIds) {
     });
   });
   socket.on("wel", function (arg) {
-    console.log(negoIds[0].dataset.user, arg.negoStage);
-
     if (negoIds[0].dataset.user == "buyer" && arg.negoStage % 2 != 0) {
       if (localStorage.getItem("notify")) showNotification(arg.name, arg.bid, arg.negoStage);else Notification.requestPermission().then(function (permission) {
         if (permission == "granted") {
@@ -7072,7 +7079,6 @@ if (negoPgcancel) {
 
 if (resetPassBtn) {
   resetPassBtn.addEventListener("click", function () {
-    console.log("Click");
     (0, _ApiCalls.resetPassFn)(passConfirmReset.dataset.token, passwordReset.value, passConfirmReset.value);
   });
 }
@@ -7144,7 +7150,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55713" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49935" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

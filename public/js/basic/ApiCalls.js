@@ -17,7 +17,6 @@ export const login = async (email, password, id) => {
         },
       });
     } else {
-      console.log(`/api/v1/${id == 0 ? "farmSeller" : "seller"}/login`);
       res = await axios({
         method: "POST",
         url: `/api/v1/${id == 0 ? "farmSeller" : "seller"}/login`,
@@ -47,7 +46,7 @@ export const login = async (email, password, id) => {
   }
   return true;
 };
-export const signUp = async (name, email, password, passwordConfirm) => {
+export const signUp = async (name, email, password, passwordConfirm, id) => {
   const input = document.querySelectorAll(".validate-input");
   try {
     if (!window.location.href.includes("seller")) {
@@ -70,10 +69,9 @@ export const signUp = async (name, email, password, passwordConfirm) => {
           method: "GET",
           url: `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=00a0febcd96b4f22aa5b755c3ef62fc3`,
         });
-        console.log(res1.data.results[0].components.city);
         const res = await axios({
           method: "POST",
-          url: "/api/v1/seller/signup",
+          url: `/api/v1/${id == 0 ? "farmSeller" : "seller"}/signup`,
           data: {
             name,
             email,
@@ -87,9 +85,15 @@ export const signUp = async (name, email, password, passwordConfirm) => {
         });
         if (res.data.status === "success") {
           showAlert("success", "SignedUp successfully!");
-          window.setTimeout(() => {
-            location.assign("/seller_products");
-          }, 200);
+
+          if (id == 0)
+            window.setTimeout(() => {
+              location.assign("/MyRents");
+            }, 200);
+          else
+            window.setTimeout(() => {
+              location.assign("/seller_products");
+            }, 200);
         }
       });
     }
@@ -152,9 +156,9 @@ export const addNego = async (id, buyer, price, qty) => {
       },
     });
     if (res.data.status === "success") {
-      // const cart = document.querySelector(".cartProducts");
-      // if (cart) location.reload();
-      // else window.location.href = "/overview";
+      const cart = document.querySelector(".cartProds");
+      if (cart) location.reload();
+      else window.location.href = "/negotiate";
     }
   } catch (err) {
     console.log("ERRRRORR", err);
@@ -168,7 +172,6 @@ export const acceptNego = async (negoId) => {
       method: "POST",
       url: `/api/v1/negotiation/acceptBid/${negoId}`,
     });
-    console.log(res);
     if (res.data.status === "success") {
       // const cart = document.querySelector(".cartProducts");
       // if (cart) location.reload();
@@ -187,8 +190,8 @@ export const cancelNego = async (negoId) => {
       url: `/api/v1/negotiation/cancelBid/${negoId}`,
     });
     if (res.data.status === "success") {
-      console.log("REMOVED");
       const nego = document.querySelector(".negoRow");
+      console.log(nego);
       if (nego) location.reload();
       else window.location.href = "/";
     }
@@ -234,7 +237,6 @@ export const forgPassFn = async () => {
         },
       });
     } else {
-      console.log(email);
       res = await axios({
         method: "POST",
         url: "api/v1/seller/forgotPassword",
@@ -252,7 +254,6 @@ export const forgPassFn = async () => {
     return false;
     // showAlert("error", err.response.data.message);
   }
-  console.log("sendmail");
 };
 export const updateDetails = async (name) => {
   const input = document.querySelectorAll(".validate-input");
@@ -313,7 +314,6 @@ export const updatePassword = async (
       }, 300);
     }
   } catch (err) {
-    console.log(err.response.data);
     showValidate(input[1]);
     input[1].dataset.validate = err.response.data.message;
     return false;
@@ -337,7 +337,6 @@ export const resetPassFn = async (token, password, passwordConfirm) => {
         },
       });
     } else {
-      console.log(email);
       res = await axios({
         method: "PATCH",
         url: `/api/v1/seller/resetPassword/${token}`,
@@ -348,7 +347,6 @@ export const resetPassFn = async (token, password, passwordConfirm) => {
       });
     }
     if (res.data.status === "success") {
-      console.log("SUCCESS");
       if (!window.location.href.includes("seller"))
         window.location.href = "/login";
       else window.location.href = "/seller-login";
@@ -360,7 +358,6 @@ export const resetPassFn = async (token, password, passwordConfirm) => {
     return false;
     // showAlert("error", err.response.data.message);
   }
-  console.log("sendmail");
 };
 
 function showValidate(input) {
@@ -378,7 +375,6 @@ export const updateCart = async (prodId, qty, role) => {
       // location.reload();
     }
   } catch (err) {
-    console.log("ERRRRORR", err);
     // showAlert("error", err.response.data.message);
   }
   return true;
@@ -409,7 +405,6 @@ export const logout = async () => {
         location.reload();
     }
   } catch (err) {
-    console.log(err.response);
     showAlert("error", "Error logging out! Try again.");
   }
 };
