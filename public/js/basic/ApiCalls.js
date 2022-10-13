@@ -50,17 +50,35 @@ export const signUp = async (name, email, password, passwordConfirm, id) => {
   const input = document.querySelectorAll(".validate-input");
   try {
     if (!window.location.href.includes("seller")) {
-      const res = await axios({
-        method: "POST",
-        url: "/api/v1/user/signup",
-        data: { name, email, password, passwordConfirm },
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+        const res1 = await axios({
+          method: "GET",
+          url: `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=00a0febcd96b4f22aa5b755c3ef62fc3`,
+        });
+        console.log(res1);
+        const res = await axios({
+          method: "POST",
+          url: "/api/v1/user/signup",
+          data: {
+            name,
+            email,
+            password,
+            passwordConfirm,
+            location: {
+              coordinates: [long, lat],
+              city: res1.data.results[0].components.city,
+            },
+          },
+        });
+        if (res.data.status === "success") {
+          showAlert("success", "SignedUp successfully!");
+          window.setTimeout(() => {
+            location.assign("/");
+          }, 200);
+        }
       });
-      if (res.data.status === "success") {
-        showAlert("success", "SignedUp successfully!");
-        window.setTimeout(() => {
-          location.assign("/");
-        }, 200);
-      }
     } else {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const lat = position.coords.latitude;
@@ -99,6 +117,7 @@ export const signUp = async (name, email, password, passwordConfirm, id) => {
     }
   } catch (err) {
     showValidate(input[0]);
+    console.log(err);
     input[0].dataset.validate = err.response.data.message;
     return false;
     // showAlert("error", err.response.data.message);
@@ -395,6 +414,7 @@ export const logout = async () => {
         "myOrders",
         "negotiate",
         "seller_products",
+        "order_placed"
       ];
 
       const hasUrl = url.map((e) => {

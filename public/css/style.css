@@ -2785,3 +2785,7 @@ ul.cart-list > li.total > .btn:hover {
 input[type="number"] {
   width: 50%;
 }
+
+.hidden{
+  display: none;
+}

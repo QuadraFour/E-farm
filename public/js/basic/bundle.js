@@ -4678,124 +4678,152 @@ var login = /*#__PURE__*/function () {
 exports.login = login;
 
 var signUp = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(name, email, password, passwordConfirm, id) {
-    var input, res;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(name, email, password, passwordConfirm, id) {
+    var input;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             input = document.querySelectorAll(".validate-input");
-            _context3.prev = 1;
+            _context4.prev = 1;
 
-            if (window.location.href.includes("seller")) {
-              _context3.next = 9;
-              break;
+            if (!window.location.href.includes("seller")) {
+              navigator.geolocation.getCurrentPosition( /*#__PURE__*/function () {
+                var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(position) {
+                  var lat, long, res1, res;
+                  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+                    while (1) {
+                      switch (_context2.prev = _context2.next) {
+                        case 0:
+                          lat = position.coords.latitude;
+                          long = position.coords.longitude;
+                          _context2.next = 4;
+                          return (0, _axios.default)({
+                            method: "GET",
+                            url: "https://api.opencagedata.com/geocode/v1/json?q=".concat(lat, "+").concat(long, "&key=00a0febcd96b4f22aa5b755c3ef62fc3")
+                          });
+
+                        case 4:
+                          res1 = _context2.sent;
+                          console.log(res1);
+                          _context2.next = 8;
+                          return (0, _axios.default)({
+                            method: "POST",
+                            url: "/api/v1/user/signup",
+                            data: {
+                              name: name,
+                              email: email,
+                              password: password,
+                              passwordConfirm: passwordConfirm,
+                              location: {
+                                coordinates: [long, lat],
+                                city: res1.data.results[0].components.city
+                              }
+                            }
+                          });
+
+                        case 8:
+                          res = _context2.sent;
+
+                          if (res.data.status === "success") {
+                            (0, _alerts.showAlert)("success", "SignedUp successfully!");
+                            window.setTimeout(function () {
+                              location.assign("/");
+                            }, 200);
+                          }
+
+                        case 10:
+                        case "end":
+                          return _context2.stop();
+                      }
+                    }
+                  }, _callee2);
+                }));
+
+                return function (_x9) {
+                  return _ref3.apply(this, arguments);
+                };
+              }());
+            } else {
+              navigator.geolocation.getCurrentPosition( /*#__PURE__*/function () {
+                var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(position) {
+                  var lat, long, res1, res;
+                  return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          lat = position.coords.latitude;
+                          long = position.coords.longitude;
+                          _context3.next = 4;
+                          return (0, _axios.default)({
+                            method: "GET",
+                            url: "https://api.opencagedata.com/geocode/v1/json?q=".concat(lat, "+").concat(long, "&key=00a0febcd96b4f22aa5b755c3ef62fc3")
+                          });
+
+                        case 4:
+                          res1 = _context3.sent;
+                          _context3.next = 7;
+                          return (0, _axios.default)({
+                            method: "POST",
+                            url: "/api/v1/".concat(id == 0 ? "farmSeller" : "seller", "/signup"),
+                            data: {
+                              name: name,
+                              email: email,
+                              password: password,
+                              passwordConfirm: passwordConfirm,
+                              location: {
+                                coordinates: [long, lat],
+                                city: res1.data.results[0].components.city
+                              }
+                            }
+                          });
+
+                        case 7:
+                          res = _context3.sent;
+
+                          if (res.data.status === "success") {
+                            (0, _alerts.showAlert)("success", "SignedUp successfully!");
+                            if (id == 0) window.setTimeout(function () {
+                              location.assign("/MyRents");
+                            }, 200);else window.setTimeout(function () {
+                              location.assign("/seller_products");
+                            }, 200);
+                          }
+
+                        case 9:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                }));
+
+                return function (_x10) {
+                  return _ref4.apply(this, arguments);
+                };
+              }());
             }
 
-            _context3.next = 5;
-            return (0, _axios.default)({
-              method: "POST",
-              url: "/api/v1/user/signup",
-              data: {
-                name: name,
-                email: email,
-                password: password,
-                passwordConfirm: passwordConfirm
-              }
-            });
+            _context4.next = 11;
+            break;
 
           case 5:
-            res = _context3.sent;
+            _context4.prev = 5;
+            _context4.t0 = _context4["catch"](1);
+            showValidate(input[0]);
+            console.log(_context4.t0);
+            input[0].dataset.validate = _context4.t0.response.data.message;
+            return _context4.abrupt("return", false);
 
-            if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "SignedUp successfully!");
-              window.setTimeout(function () {
-                location.assign("/");
-              }, 200);
-            }
-
-            _context3.next = 10;
-            break;
-
-          case 9:
-            navigator.geolocation.getCurrentPosition( /*#__PURE__*/function () {
-              var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(position) {
-                var lat, long, res1, res;
-                return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-                  while (1) {
-                    switch (_context2.prev = _context2.next) {
-                      case 0:
-                        lat = position.coords.latitude;
-                        long = position.coords.longitude;
-                        _context2.next = 4;
-                        return (0, _axios.default)({
-                          method: "GET",
-                          url: "https://api.opencagedata.com/geocode/v1/json?q=".concat(lat, "+").concat(long, "&key=00a0febcd96b4f22aa5b755c3ef62fc3")
-                        });
-
-                      case 4:
-                        res1 = _context2.sent;
-                        _context2.next = 7;
-                        return (0, _axios.default)({
-                          method: "POST",
-                          url: "/api/v1/".concat(id == 0 ? "farmSeller" : "seller", "/signup"),
-                          data: {
-                            name: name,
-                            email: email,
-                            password: password,
-                            passwordConfirm: passwordConfirm,
-                            location: {
-                              coordinates: [long, lat],
-                              city: res1.data.results[0].components.city
-                            }
-                          }
-                        });
-
-                      case 7:
-                        res = _context2.sent;
-
-                        if (res.data.status === "success") {
-                          (0, _alerts.showAlert)("success", "SignedUp successfully!");
-                          if (id == 0) window.setTimeout(function () {
-                            location.assign("/MyRents");
-                          }, 200);else window.setTimeout(function () {
-                            location.assign("/seller_products");
-                          }, 200);
-                        }
-
-                      case 9:
-                      case "end":
-                        return _context2.stop();
-                    }
-                  }
-                }, _callee2);
-              }));
-
-              return function (_x9) {
-                return _ref3.apply(this, arguments);
-              };
-            }());
-
-          case 10:
-            _context3.next = 17;
-            break;
+          case 11:
+            return _context4.abrupt("return", true);
 
           case 12:
-            _context3.prev = 12;
-            _context3.t0 = _context3["catch"](1);
-            showValidate(input[0]);
-            input[0].dataset.validate = _context3.t0.response.data.message;
-            return _context3.abrupt("return", false);
-
-          case 17:
-            return _context3.abrupt("return", true);
-
-          case 18:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[1, 12]]);
+    }, _callee4, null, [[1, 5]]);
   }));
 
   return function signUp(_x4, _x5, _x6, _x7, _x8) {
@@ -4806,110 +4834,62 @@ var signUp = /*#__PURE__*/function () {
 exports.signUp = signUp;
 
 var addToCart = /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(prodId) {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(prodId) {
     var qty, res;
-    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             qty = document.getElementById("qtyBox").value;
 
             if (!(qty != 0)) {
-              _context4.next = 12;
+              _context5.next = 12;
               break;
             }
 
-            _context4.prev = 2;
-            _context4.next = 5;
+            _context5.prev = 2;
+            _context5.next = 5;
             return (0, _axios.default)({
               method: "POST",
               url: "/api/v1/".concat(window.location.href.includes("farm") ? "seller" : "buyer", "/addCart/").concat(prodId, "/").concat(qty)
             });
 
           case 5:
-            res = _context4.sent;
+            res = _context5.sent;
 
             if (res.data.status === "success") {
               addCartBtn.parentElement.innerHTML = "ADDED";
               location.reload();
             }
 
-            _context4.next = 12;
+            _context5.next = 12;
             break;
 
           case 9:
-            _context4.prev = 9;
-            _context4.t0 = _context4["catch"](2);
-            console.log("ERRRRORR", _context4.t0); // showAlert("error", err.response.data.message);
+            _context5.prev = 9;
+            _context5.t0 = _context5["catch"](2);
+            console.log("ERRRRORR", _context5.t0); // showAlert("error", err.response.data.message);
 
           case 12:
-            return _context4.abrupt("return", true);
+            return _context5.abrupt("return", true);
 
           case 13:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, null, [[2, 9]]);
+    }, _callee5, null, [[2, 9]]);
   }));
 
-  return function addToCart(_x10) {
-    return _ref4.apply(this, arguments);
+  return function addToCart(_x11) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 exports.addToCart = addToCart;
 
 var rmCart = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, role) {
-    var res, cart;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            _context5.prev = 0;
-            _context5.next = 3;
-            return (0, _axios.default)({
-              method: "PATCH",
-              url: "/api/v1/".concat(role, "/rmCart/").concat(id)
-            });
-
-          case 3:
-            res = _context5.sent;
-
-            if (res.data.status === "success") {
-              cart = document.querySelector(".cartProducts");
-              if (cart) location.reload();else window.location.href = "/overview";
-            }
-
-            _context5.next = 10;
-            break;
-
-          case 7:
-            _context5.prev = 7;
-            _context5.t0 = _context5["catch"](0);
-            console.log("ERRRRORR", _context5.t0); // showAlert("error", err.response.data.message);
-
-          case 10:
-            return _context5.abrupt("return", true);
-
-          case 11:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, null, [[0, 7]]);
-  }));
-
-  return function rmCart(_x11, _x12) {
-    return _ref5.apply(this, arguments);
-  };
-}();
-
-exports.rmCart = rmCart;
-
-var addNego = /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, buyer, price, qty) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, role) {
     var res, cart;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) {
@@ -4918,23 +4898,16 @@ var addNego = /*#__PURE__*/function () {
             _context6.prev = 0;
             _context6.next = 3;
             return (0, _axios.default)({
-              method: "POST",
-              url: "/api/v1/negotiation/placeBid/",
-              data: {
-                product: id,
-                buyer: buyer,
-                startingPrice: price,
-                currentBid: price,
-                qty: qty
-              }
+              method: "PATCH",
+              url: "/api/v1/".concat(role, "/rmCart/").concat(id)
             });
 
           case 3:
             res = _context6.sent;
 
             if (res.data.status === "success") {
-              cart = document.querySelector(".cartProds");
-              if (cart) location.reload();else window.location.href = "/negotiate";
+              cart = document.querySelector(".cartProducts");
+              if (cart) location.reload();else window.location.href = "/overview";
             }
 
             _context6.next = 10;
@@ -4956,16 +4929,16 @@ var addNego = /*#__PURE__*/function () {
     }, _callee6, null, [[0, 7]]);
   }));
 
-  return function addNego(_x13, _x14, _x15, _x16) {
+  return function rmCart(_x12, _x13) {
     return _ref6.apply(this, arguments);
   };
 }();
 
-exports.addNego = addNego;
+exports.rmCart = rmCart;
 
-var acceptNego = /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(negoId) {
-    var res;
+var addNego = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id, buyer, price, qty) {
+    var res, cart;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -4974,16 +4947,22 @@ var acceptNego = /*#__PURE__*/function () {
             _context7.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "/api/v1/negotiation/acceptBid/".concat(negoId)
+              url: "/api/v1/negotiation/placeBid/",
+              data: {
+                product: id,
+                buyer: buyer,
+                startingPrice: price,
+                currentBid: price,
+                qty: qty
+              }
             });
 
           case 3:
             res = _context7.sent;
 
             if (res.data.status === "success") {
-              // const cart = document.querySelector(".cartProducts");
-              // if (cart) location.reload();
-              window.location.href = "/order_placed/".concat(res.data.data.data._id);
+              cart = document.querySelector(".cartProds");
+              if (cart) location.reload();else window.location.href = "/negotiate";
             }
 
             _context7.next = 10;
@@ -5005,16 +4984,16 @@ var acceptNego = /*#__PURE__*/function () {
     }, _callee7, null, [[0, 7]]);
   }));
 
-  return function acceptNego(_x17) {
+  return function addNego(_x14, _x15, _x16, _x17) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-exports.acceptNego = acceptNego;
+exports.addNego = addNego;
 
-var cancelNego = /*#__PURE__*/function () {
+var acceptNego = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(negoId) {
-    var res, nego;
+    var res;
     return _regeneratorRuntime().wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
@@ -5023,16 +5002,16 @@ var cancelNego = /*#__PURE__*/function () {
             _context8.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "/api/v1/negotiation/cancelBid/".concat(negoId)
+              url: "/api/v1/negotiation/acceptBid/".concat(negoId)
             });
 
           case 3:
             res = _context8.sent;
 
             if (res.data.status === "success") {
-              nego = document.querySelector(".negoRow");
-              console.log(nego);
-              if (nego) location.reload();else window.location.href = "/";
+              // const cart = document.querySelector(".cartProducts");
+              // if (cart) location.reload();
+              window.location.href = "/order_placed/".concat(res.data.data.data._id);
             }
 
             _context8.next = 10;
@@ -5054,16 +5033,16 @@ var cancelNego = /*#__PURE__*/function () {
     }, _callee8, null, [[0, 7]]);
   }));
 
-  return function cancelNego(_x18) {
+  return function acceptNego(_x18) {
     return _ref8.apply(this, arguments);
   };
 }();
 
-exports.cancelNego = cancelNego;
+exports.acceptNego = acceptNego;
 
-var replyNego = /*#__PURE__*/function () {
-  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(negoId, replyPrice) {
-    var res;
+var cancelNego = /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(negoId) {
+    var res, nego;
     return _regeneratorRuntime().wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
@@ -5072,20 +5051,16 @@ var replyNego = /*#__PURE__*/function () {
             _context9.next = 3;
             return (0, _axios.default)({
               method: "POST",
-              url: "/api/v1/negotiation/replyBid/".concat(negoId),
-              data: {
-                replyPrice: replyPrice
-              }
+              url: "/api/v1/negotiation/cancelBid/".concat(negoId)
             });
 
           case 3:
             res = _context9.sent;
 
             if (res.data.status === "success") {
-              location.reload(); // const nego = document.querySelector(".negoRow");
-              // console.log(nego);
-              // if (nego) location.reload();
-              // else window.location.href = "/";
+              nego = document.querySelector(".negoRow");
+              console.log(nego);
+              if (nego) location.reload();else window.location.href = "/";
             }
 
             _context9.next = 10;
@@ -5107,31 +5082,84 @@ var replyNego = /*#__PURE__*/function () {
     }, _callee9, null, [[0, 7]]);
   }));
 
-  return function replyNego(_x19, _x20) {
+  return function cancelNego(_x19) {
     return _ref9.apply(this, arguments);
+  };
+}();
+
+exports.cancelNego = cancelNego;
+
+var replyNego = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(negoId, replyPrice) {
+    var res;
+    return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            _context10.prev = 0;
+            _context10.next = 3;
+            return (0, _axios.default)({
+              method: "POST",
+              url: "/api/v1/negotiation/replyBid/".concat(negoId),
+              data: {
+                replyPrice: replyPrice
+              }
+            });
+
+          case 3:
+            res = _context10.sent;
+
+            if (res.data.status === "success") {
+              location.reload(); // const nego = document.querySelector(".negoRow");
+              // console.log(nego);
+              // if (nego) location.reload();
+              // else window.location.href = "/";
+            }
+
+            _context10.next = 10;
+            break;
+
+          case 7:
+            _context10.prev = 7;
+            _context10.t0 = _context10["catch"](0);
+            console.log("ERRRRORR", _context10.t0); // showAlert("error", err.response.data.message);
+
+          case 10:
+            return _context10.abrupt("return", true);
+
+          case 11:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[0, 7]]);
+  }));
+
+  return function replyNego(_x20, _x21) {
+    return _ref10.apply(this, arguments);
   };
 }();
 
 exports.replyNego = replyNego;
 
 var forgPassFn = /*#__PURE__*/function () {
-  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10() {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11() {
     var emailInput, email, input, res;
-    return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
       while (1) {
-        switch (_context10.prev = _context10.next) {
+        switch (_context11.prev = _context11.next) {
           case 0:
             emailInput = document.querySelector(".emailInpt");
             email = emailInput.value;
             input = document.querySelectorAll(".validate-input");
-            _context10.prev = 3;
+            _context11.prev = 3;
 
             if (window.location.href.includes("seller")) {
-              _context10.next = 10;
+              _context11.next = 10;
               break;
             }
 
-            _context10.next = 7;
+            _context11.next = 7;
             return (0, _axios.default)({
               method: "POST",
               url: "api/v1/buyer/forgotPassword",
@@ -5141,12 +5169,12 @@ var forgPassFn = /*#__PURE__*/function () {
             });
 
           case 7:
-            res = _context10.sent;
-            _context10.next = 13;
+            res = _context11.sent;
+            _context11.next = 13;
             break;
 
           case 10:
-            _context10.next = 12;
+            _context11.next = 12;
             return (0, _axios.default)({
               method: "POST",
               url: "api/v1/seller/forgotPassword",
@@ -5156,112 +5184,40 @@ var forgPassFn = /*#__PURE__*/function () {
             });
 
           case 12:
-            res = _context10.sent;
+            res = _context11.sent;
 
           case 13:
             if (res.data.status === "success") {
               location.reload();
             }
 
-            _context10.next = 21;
+            _context11.next = 21;
             break;
 
           case 16:
-            _context10.prev = 16;
-            _context10.t0 = _context10["catch"](3);
+            _context11.prev = 16;
+            _context11.t0 = _context11["catch"](3);
             showValidate(input[0]);
-            input[0].dataset.validate = _context10.t0.response.data.message;
-            return _context10.abrupt("return", false);
+            input[0].dataset.validate = _context11.t0.response.data.message;
+            return _context11.abrupt("return", false);
 
           case 21:
           case "end":
-            return _context10.stop();
+            return _context11.stop();
         }
       }
-    }, _callee10, null, [[3, 16]]);
+    }, _callee11, null, [[3, 16]]);
   }));
 
   return function forgPassFn() {
-    return _ref10.apply(this, arguments);
+    return _ref11.apply(this, arguments);
   };
 }();
 
 exports.forgPassFn = forgPassFn;
 
 var updateDetails = /*#__PURE__*/function () {
-  var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(name) {
-    var input, res;
-    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
-      while (1) {
-        switch (_context11.prev = _context11.next) {
-          case 0:
-            input = document.querySelectorAll(".validate-input");
-            _context11.prev = 1;
-
-            if (window.location.href.includes("seller")) {
-              _context11.next = 8;
-              break;
-            }
-
-            _context11.next = 5;
-            return (0, _axios.default)({
-              method: "PATCH",
-              url: "api/v1/buyer/updateMe",
-              data: {
-                name: name
-              }
-            });
-
-          case 5:
-            res = _context11.sent;
-            _context11.next = 11;
-            break;
-
-          case 8:
-            _context11.next = 10;
-            return (0, _axios.default)({
-              method: "PATCH",
-              url: "api/v1/seller/updateMe",
-              data: {
-                name: name
-              }
-            });
-
-          case 10:
-            res = _context11.sent;
-
-          case 11:
-            if (res.data.status === "success") {
-              location.reload();
-            }
-
-            _context11.next = 19;
-            break;
-
-          case 14:
-            _context11.prev = 14;
-            _context11.t0 = _context11["catch"](1);
-            showValidate(input[0]);
-            input[0].dataset.validate = _context11.t0.response.data.message;
-            return _context11.abrupt("return", false);
-
-          case 19:
-          case "end":
-            return _context11.stop();
-        }
-      }
-    }, _callee11, null, [[1, 14]]);
-  }));
-
-  return function updateDetails(_x21) {
-    return _ref11.apply(this, arguments);
-  };
-}();
-
-exports.updateDetails = updateDetails;
-
-var updatePassword = /*#__PURE__*/function () {
-  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(passwordCurrent, password, passwordConfirm) {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(name) {
     var input, res;
     return _regeneratorRuntime().wrap(function _callee12$(_context12) {
       while (1) {
@@ -5278,11 +5234,9 @@ var updatePassword = /*#__PURE__*/function () {
             _context12.next = 5;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "api/v1/buyer/updateMyPassword",
+              url: "api/v1/buyer/updateMe",
               data: {
-                passwordCurrent: passwordCurrent,
-                password: password,
-                passwordConfirm: passwordConfirm
+                name: name
               }
             });
 
@@ -5295,11 +5249,9 @@ var updatePassword = /*#__PURE__*/function () {
             _context12.next = 10;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "api/v1/seller/updateMyPassword",
+              url: "api/v1/seller/updateMe",
               data: {
-                passwordCurrent: passwordCurrent,
-                password: password,
-                passwordConfirm: passwordConfirm
+                name: name
               }
             });
 
@@ -5308,10 +5260,7 @@ var updatePassword = /*#__PURE__*/function () {
 
           case 11:
             if (res.data.status === "success") {
-              (0, _alerts.showAlert)("success", "Password Changed successfully!");
-              window.setTimeout(function () {
-                location.reload();
-              }, 300);
+              location.reload();
             }
 
             _context12.next = 19;
@@ -5320,8 +5269,8 @@ var updatePassword = /*#__PURE__*/function () {
           case 14:
             _context12.prev = 14;
             _context12.t0 = _context12["catch"](1);
-            showValidate(input[1]);
-            input[1].dataset.validate = _context12.t0.response.data.message;
+            showValidate(input[0]);
+            input[0].dataset.validate = _context12.t0.response.data.message;
             return _context12.abrupt("return", false);
 
           case 19:
@@ -5332,22 +5281,20 @@ var updatePassword = /*#__PURE__*/function () {
     }, _callee12, null, [[1, 14]]);
   }));
 
-  return function updatePassword(_x22, _x23, _x24) {
+  return function updateDetails(_x22) {
     return _ref12.apply(this, arguments);
   };
 }();
 
-exports.updatePassword = updatePassword;
+exports.updateDetails = updateDetails;
 
-var resetPassFn = /*#__PURE__*/function () {
-  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(token, password, passwordConfirm) {
+var updatePassword = /*#__PURE__*/function () {
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(passwordCurrent, password, passwordConfirm) {
     var input, res;
     return _regeneratorRuntime().wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
-            // const emailInput = document.querySelector(".emailInpt");
-            // const email = emailInput.value;
             input = document.querySelectorAll(".validate-input");
             _context13.prev = 1;
 
@@ -5359,8 +5306,9 @@ var resetPassFn = /*#__PURE__*/function () {
             _context13.next = 5;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "/api/v1/buyer/resetPassword/".concat(token),
+              url: "api/v1/buyer/updateMyPassword",
               data: {
+                passwordCurrent: passwordCurrent,
                 password: password,
                 passwordConfirm: passwordConfirm
               }
@@ -5375,8 +5323,9 @@ var resetPassFn = /*#__PURE__*/function () {
             _context13.next = 10;
             return (0, _axios.default)({
               method: "PATCH",
-              url: "/api/v1/seller/resetPassword/".concat(token),
+              url: "api/v1/seller/updateMyPassword",
               data: {
+                passwordCurrent: passwordCurrent,
                 password: password,
                 passwordConfirm: passwordConfirm
               }
@@ -5387,7 +5336,10 @@ var resetPassFn = /*#__PURE__*/function () {
 
           case 11:
             if (res.data.status === "success") {
-              if (!window.location.href.includes("seller")) window.location.href = "/login";else window.location.href = "/seller-login";
+              (0, _alerts.showAlert)("success", "Password Changed successfully!");
+              window.setTimeout(function () {
+                location.reload();
+              }, 300);
             }
 
             _context13.next = 19;
@@ -5396,9 +5348,8 @@ var resetPassFn = /*#__PURE__*/function () {
           case 14:
             _context13.prev = 14;
             _context13.t0 = _context13["catch"](1);
-            showValidate(input[0]); // if (err.response.data.message.includes("Cast to string failed"))
-
-            input[0].dataset.validate = _context13.t0.response.data.message;
+            showValidate(input[1]);
+            input[1].dataset.validate = _context13.t0.response.data.message;
             return _context13.abrupt("return", false);
 
           case 19:
@@ -5409,8 +5360,85 @@ var resetPassFn = /*#__PURE__*/function () {
     }, _callee13, null, [[1, 14]]);
   }));
 
-  return function resetPassFn(_x25, _x26, _x27) {
+  return function updatePassword(_x23, _x24, _x25) {
     return _ref13.apply(this, arguments);
+  };
+}();
+
+exports.updatePassword = updatePassword;
+
+var resetPassFn = /*#__PURE__*/function () {
+  var _ref14 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(token, password, passwordConfirm) {
+    var input, res;
+    return _regeneratorRuntime().wrap(function _callee14$(_context14) {
+      while (1) {
+        switch (_context14.prev = _context14.next) {
+          case 0:
+            // const emailInput = document.querySelector(".emailInpt");
+            // const email = emailInput.value;
+            input = document.querySelectorAll(".validate-input");
+            _context14.prev = 1;
+
+            if (window.location.href.includes("seller")) {
+              _context14.next = 8;
+              break;
+            }
+
+            _context14.next = 5;
+            return (0, _axios.default)({
+              method: "PATCH",
+              url: "/api/v1/buyer/resetPassword/".concat(token),
+              data: {
+                password: password,
+                passwordConfirm: passwordConfirm
+              }
+            });
+
+          case 5:
+            res = _context14.sent;
+            _context14.next = 11;
+            break;
+
+          case 8:
+            _context14.next = 10;
+            return (0, _axios.default)({
+              method: "PATCH",
+              url: "/api/v1/seller/resetPassword/".concat(token),
+              data: {
+                password: password,
+                passwordConfirm: passwordConfirm
+              }
+            });
+
+          case 10:
+            res = _context14.sent;
+
+          case 11:
+            if (res.data.status === "success") {
+              if (!window.location.href.includes("seller")) window.location.href = "/login";else window.location.href = "/seller-login";
+            }
+
+            _context14.next = 19;
+            break;
+
+          case 14:
+            _context14.prev = 14;
+            _context14.t0 = _context14["catch"](1);
+            showValidate(input[0]); // if (err.response.data.message.includes("Cast to string failed"))
+
+            input[0].dataset.validate = _context14.t0.response.data.message;
+            return _context14.abrupt("return", false);
+
+          case 19:
+          case "end":
+            return _context14.stop();
+        }
+      }
+    }, _callee14, null, [[1, 14]]);
+  }));
+
+  return function resetPassFn(_x26, _x27, _x28) {
+    return _ref14.apply(this, arguments);
   };
 }();
 
@@ -5422,54 +5450,8 @@ function showValidate(input) {
 }
 
 var updateCart = /*#__PURE__*/function () {
-  var _ref14 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(prodId, qty, role) {
+  var _ref15 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(prodId, qty, role) {
     var res;
-    return _regeneratorRuntime().wrap(function _callee14$(_context14) {
-      while (1) {
-        switch (_context14.prev = _context14.next) {
-          case 0:
-            _context14.prev = 0;
-            _context14.next = 3;
-            return (0, _axios.default)({
-              method: "PATCH",
-              url: "/api/v1/".concat(role, "/updateCart/").concat(prodId, "/").concat(qty)
-            });
-
-          case 3:
-            res = _context14.sent;
-
-            if (res.data.status === "success") {// addCartBtn.parentElement.innerHTML = "ADDED";
-              // location.reload();
-            }
-
-            _context14.next = 9;
-            break;
-
-          case 7:
-            _context14.prev = 7;
-            _context14.t0 = _context14["catch"](0);
-
-          case 9:
-            return _context14.abrupt("return", true);
-
-          case 10:
-          case "end":
-            return _context14.stop();
-        }
-      }
-    }, _callee14, null, [[0, 7]]);
-  }));
-
-  return function updateCart(_x28, _x29, _x30) {
-    return _ref14.apply(this, arguments);
-  };
-}();
-
-exports.updateCart = updateCart;
-
-var logout = /*#__PURE__*/function () {
-  var _ref15 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15() {
-    var res, url, hasUrl;
     return _regeneratorRuntime().wrap(function _callee15$(_context15) {
       while (1) {
         switch (_context15.prev = _context15.next) {
@@ -5477,28 +5459,26 @@ var logout = /*#__PURE__*/function () {
             _context15.prev = 0;
             _context15.next = 3;
             return (0, _axios.default)({
-              method: "GET",
-              url: "/api/v1/user/logout"
+              method: "PATCH",
+              url: "/api/v1/".concat(role, "/updateCart/").concat(prodId, "/").concat(qty)
             });
 
           case 3:
             res = _context15.sent;
 
-            if (res.data.status = "success") {
-              url = ["account", "myCart", "checkOut", "editAccount", "myOrders", "negotiate", "seller_products"];
-              hasUrl = url.map(function (e) {
-                return window.location.href.includes(e);
-              });
-              if (hasUrl.includes(true)) window.location.href = "/";else if (!window.location.href.includes("seller-login")) location.reload();
+            if (res.data.status === "success") {// addCartBtn.parentElement.innerHTML = "ADDED";
+              // location.reload();
             }
 
-            _context15.next = 10;
+            _context15.next = 9;
             break;
 
           case 7:
             _context15.prev = 7;
             _context15.t0 = _context15["catch"](0);
-            (0, _alerts.showAlert)("error", "Error logging out! Try again.");
+
+          case 9:
+            return _context15.abrupt("return", true);
 
           case 10:
           case "end":
@@ -5508,19 +5488,67 @@ var logout = /*#__PURE__*/function () {
     }, _callee15, null, [[0, 7]]);
   }));
 
-  return function logout() {
+  return function updateCart(_x29, _x30, _x31) {
     return _ref15.apply(this, arguments);
+  };
+}();
+
+exports.updateCart = updateCart;
+
+var logout = /*#__PURE__*/function () {
+  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16() {
+    var res, url, hasUrl;
+    return _regeneratorRuntime().wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            _context16.prev = 0;
+            _context16.next = 3;
+            return (0, _axios.default)({
+              method: "GET",
+              url: "/api/v1/user/logout"
+            });
+
+          case 3:
+            res = _context16.sent;
+
+            if (res.data.status = "success") {
+              url = ["account", "myCart", "checkOut", "editAccount", "myOrders", "negotiate", "seller_products", "order_placed"];
+              hasUrl = url.map(function (e) {
+                return window.location.href.includes(e);
+              });
+              if (hasUrl.includes(true)) window.location.href = "/";else if (!window.location.href.includes("seller-login")) location.reload();
+            }
+
+            _context16.next = 10;
+            break;
+
+          case 7:
+            _context16.prev = 7;
+            _context16.t0 = _context16["catch"](0);
+            (0, _alerts.showAlert)("error", "Error logging out! Try again.");
+
+          case 10:
+          case "end":
+            return _context16.stop();
+        }
+      }
+    }, _callee16, null, [[0, 7]]);
+  }));
+
+  return function logout() {
+    return _ref16.apply(this, arguments);
   };
 }();
 
 exports.logout = logout;
 
 var filterPrice = /*#__PURE__*/function () {
-  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16(start, end) {
+  var _ref17 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(start, end) {
     var url;
-    return _regeneratorRuntime().wrap(function _callee16$(_context16) {
+    return _regeneratorRuntime().wrap(function _callee17$(_context17) {
       while (1) {
-        switch (_context16.prev = _context16.next) {
+        switch (_context17.prev = _context17.next) {
           case 0:
             url = window.location;
             if (!url.search) url = url.search + "?price[gte]=".concat(start, "&price[lte]=").concat(end);else if (url.search.includes("type") && url.search.includes("price[gte]")) {
@@ -5531,24 +5559,24 @@ var filterPrice = /*#__PURE__*/function () {
 
           case 3:
           case "end":
-            return _context16.stop();
+            return _context17.stop();
         }
       }
-    }, _callee16);
+    }, _callee17);
   }));
 
-  return function filterPrice(_x31, _x32) {
-    return _ref16.apply(this, arguments);
+  return function filterPrice(_x32, _x33) {
+    return _ref17.apply(this, arguments);
   };
 }();
 
 exports.filterPrice = filterPrice;
 
 var withinDistance = /*#__PURE__*/function () {
-  var _ref17 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(dist) {
-    return _regeneratorRuntime().wrap(function _callee17$(_context17) {
+  var _ref18 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee18(dist) {
+    return _regeneratorRuntime().wrap(function _callee18$(_context18) {
       while (1) {
-        switch (_context17.prev = _context17.next) {
+        switch (_context18.prev = _context18.next) {
           case 0:
             navigator.geolocation.getCurrentPosition(function (position) {
               if (!window.location.href.includes("farm")) window.location.href = "/productsWithin/".concat(position.coords.latitude, ",").concat(position.coords.longitude, ",").concat(dist);else window.location.href = "/farmProductsWithin/".concat(position.coords.latitude, ",").concat(position.coords.longitude, ",").concat(dist);
@@ -5556,14 +5584,14 @@ var withinDistance = /*#__PURE__*/function () {
 
           case 1:
           case "end":
-            return _context17.stop();
+            return _context18.stop();
         }
       }
-    }, _callee17);
+    }, _callee18);
   }));
 
-  return function withinDistance(_x33) {
-    return _ref17.apply(this, arguments);
+  return function withinDistance(_x34) {
+    return _ref18.apply(this, arguments);
   };
 }();
 
@@ -6876,6 +6904,9 @@ var filterBtn = document.querySelector(".filterBtn");
 var distValue = document.querySelector(".distValue");
 var sellProd = document.querySelectorAll(".sellProd");
 var navItem = document.querySelectorAll(".nav-item");
+var cityBtn = document.querySelectorAll(".cityBtn");
+var tableLst = document.querySelectorAll(".tableLst");
+var chartImg = document.querySelectorAll(".chartImg");
 
 if (navItem) {
   navItem.forEach(function (el) {
@@ -7095,6 +7126,22 @@ if (updatePassBtn) {
   });
 }
 
+if (cityBtn) {
+  cityBtn.forEach(function (el) {
+    el.addEventListener("click", function () {
+      tableLst.forEach(function (tab) {
+        tab.classList.add("hidden");
+        console.log(tab.childNodes);
+      });
+      tableLst[el.dataset.id].classList.remove("hidden");
+      chartImg.forEach(function (img) {
+        img.style.display = "none";
+      });
+      chartImg[el.dataset.id].style.display = "";
+    });
+  });
+}
+
 $(".validate-form .input100").each(function () {
   $(this).focus(function () {
     hideValidate(this);
@@ -7150,7 +7197,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63986" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49343" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

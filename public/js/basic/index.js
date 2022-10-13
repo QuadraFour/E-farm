@@ -53,6 +53,9 @@ const filterBtn = document.querySelector(".filterBtn");
 const distValue = document.querySelector(".distValue");
 const sellProd = document.querySelectorAll(".sellProd");
 const navItem = document.querySelectorAll(".nav-item");
+const cityBtn = document.querySelectorAll(".cityBtn");
+const tableLst = document.querySelectorAll(".tableLst");
+const chartImg = document.querySelectorAll(".chartImg");
 if (navItem) {
   navItem.forEach((el) => {
     el.classList.remove("active");
@@ -278,6 +281,20 @@ if (updatePassBtn) {
       );
   });
 }
+if (cityBtn) {
+  cityBtn.forEach((el) => {
+    el.addEventListener("click", () => {
+      tableLst.forEach((tab) => {
+        tab.classList.add("hidden");
+        console.log(tab.childNodes)
+      });
+      tableLst[el.dataset.id].classList.remove("hidden");
+      chartImg.forEach((img)=>{img.style.display="none";})
+      chartImg[el.dataset.id].style.display="";
+    });
+  });
+}
+
 $(".validate-form .input100").each(function () {
   $(this).focus(function () {
     hideValidate(this);
@@ -302,6 +319,7 @@ function validate(input) {
     }
   }
 }
+
 
 function showValidate(input) {
   var thisAlert = $(input).parent();

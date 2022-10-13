@@ -5,6 +5,7 @@ const FarmOrder = require("../Models/farmOrderModel");
 const Buyer = require("../Models/buyerModel");
 const Seller = require("../Models/sellerModel");
 const FarmSeller = require("../Models/farmSellerModel");
+const Demand = require("../Models/demandModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
@@ -334,5 +335,14 @@ exports.getMyRents = catchAsync(async (req, res, next) => {
   res.status(200).render("myRent", {
     title: "My Rents",
     // product,
+  });
+});
+exports.getDemand= catchAsync(async (req, res, next) => {
+  const demand = await Demand.find();
+  // 2) Build template
+  // 3) Render that template using product data from 1)
+  res.status(200).render("demand", {
+    title: "E-FARM",
+    demand,
   });
 });

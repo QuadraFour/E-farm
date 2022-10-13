@@ -22,6 +22,7 @@ const sellerRouter = require("./Routes/sellerRoutes");
 const farmSellerRouter = require("./Routes/farmSellerRoutes");
 const viewRouter = require("./Routes/viewRoutes");
 const rentRouter = require("./Routes/rentRoutes");
+const demandRouter = require("./Routes/demandRoutes");
 
 // Start express app
 const app = express();
@@ -134,6 +135,7 @@ app.use("/api/v1/farmOrder", farmOrderRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/farmProduct", farmProductRouter);
 app.use("/api/v1/negotiation", negotiationRouter);
+app.use("/api/v1/demand", demandRouter);
 
 const ondc = require("ondc-node");
 const handlers = require("./handlers");
@@ -146,7 +148,7 @@ app.use(
     on_init: handlers["onInit"],
   })
 );
-app.all("*", (req, res, next) => {
+app.all("*", (req, res, next) => {console.log(33)
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 

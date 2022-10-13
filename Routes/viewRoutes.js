@@ -148,5 +148,8 @@ router.get(
   viewsController.sellergetNegotiations
 );
 router.get("/MyRents", authController.isLoggedIn, viewsController.getMyRents);
+router.get("/demand",authController.isLoggedIn,
+allowSeller,
+viewsController.getDemand);
 
 module.exports = router;
